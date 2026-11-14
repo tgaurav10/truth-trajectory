@@ -78,6 +78,46 @@ Final parameter jitter = mean of these residual values across the object’s con
 Object jitter = mean of its parameter jitters.  
 (Silent parameters that never contradict = 0.)
 
+### Deriving raw Δ
+
+raw Δ is the **mean** step size of the change, derived from the variable(s) that actually shifted.
+
+Relevant variables (from VETCESC coordinates):
+- \(t\) — time / progression
+- \(r\) — radial intensity (desire strength, energy, attachment)
+- \(\theta\) — angular orientation (direction of desire or main focus)
+- \(\phi\) — azimuthal / wobble (secondary desire, control, deviation)
+
+Rule:
+- Gradual or steadily described change on the active variable → small steps (≈ 0.01–0.05).
+- Abrupt or unheralded change on that variable → large step.
+- raw Δ = mean of those step sizes across the compared contexts.
+
+A continuous multi-year decline in intensity (\(r\)) therefore produces a low mean raw Δ. An unexplained flip in orientation (\(\theta\)) produces a high mean raw Δ.
+
+### Deriving q (causal-inference scale)
+
+q is determined by the directness of the causal link the text (or allowed external source) supplies:
+
+| Type of bridge | q range |
+|----------------|---------|
+| Direct causal inference (“because X, therefore Y”) | 0.90 – 1.00 |
+| One-step indirect | 0.70 – 0.85 |
+| Multi-step or weakly linked | 0.40 – 0.65 |
+| Speculative or retrospective only | 0.10 – 0.35 |
+| No bridge | 0.00 |
+
+Optional decay function:
+\[
+q = 0.95 \times d^{k}
+\]
+where \(d\) is the directness factor (1.0 direct, 0.7 one clear step, 0.4 multi-step, 0.1 speculative) and \(k\) is the number of inferential steps.
+
+When reporting a transition the model must state:
+1. Causal type
+2. Resulting q
+3. One-sentence justification from the text
+
 ## Two-Mode Rule
 
 | Mode | Allowed sources for raising \(q\) | Effect |
