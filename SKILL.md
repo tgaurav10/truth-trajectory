@@ -62,21 +62,31 @@ Non-living objects: only the first 5.
 
 ## Residual Jitter Formula
 
-For each consecutive pair of contexts:
+For every consecutive pair of contexts and every parameter whose active variable shifted, compute one transition residual:
 
 \[
-\text{jitter} = \text{raw }\Delta \times (1 - q)
+j_k = \text{raw }\Delta_k \times (1 - q_k)
 \]
 
-- raw \(\Delta\) = absolute difference in the parameter’s 0–1 state intensity.
-- \(q\) = explanation quality [0,1]:
-  - 1 = intervening events fully and explicitly account for the change,
-  - 0 = no bridging material,
-  - intermediate = partial or implicit bridge.
+- raw Δ and q are derived as in "Deriving raw Δ" and "Deriving q".
+- A parameter that does not move between two contexts produces no transition. It is not scored and does not enter the aggregate. Parameters that are never mentioned are not transitions either.
 
-Final parameter jitter = mean of these residual values across the object’s context changes.  
-Object jitter = mean of its parameter jitters.  
-(Silent parameters that never contradict = 0.)
+Let \(K\) be the number of transitions scored for an object. Report four numbers per object:
+
+| Metric | Definition | Use |
+|---|---|---|
+| **J_rms** (headline) | \(\sqrt{\tfrac{1}{K}\sum_k j_k^2}\) | Overall residual jitter. Squaring weights large unexplained jumps more than many small ones. |
+| **J_peak** | \(\max_k j_k\) | The single worst transition. |
+| **Hotspots** | every transition with \(j_k \ge 0.10\) | The transitions to fix, each with its parameter, step, causal type, q and justification. |
+| **K and coverage** | \(K\) and \(K/(P \times T)\) (P = parameters used, T = context changes) | Evidence depth. A low K means the headline is weak evidence. |
+
+Also report **J_mean** (the legacy slot-averaged mean: sum of \(j_k\) divided by \(P \times T\), with unmoved slots counting as 0) so results stay comparable with the original ten-biography calibration.
+
+Minimum evidence: if \(K < 8\), mark the J_rms as "low evidence" and do not map it onto an interpretation band.
+
+### Supporting (bridge) nodes
+Any node used to raise q is scored with the same four metrics and reported separately. A supporting node's J_rms is never averaged into the object it supports. A node with depth 1 and a hotspot stays visible as a hotspot.
+
 
 ### Deriving raw Δ
 
@@ -129,15 +139,36 @@ Explanation is not free: any bridging object or event used to raise \(q\) must i
 
 ## Interpretation (calibrated on 10 biographies)
 
-Empirical anchor from 10 well-documented lives (Ramanujan, Curie, Darwin, Lincoln, Nightingale, Einstein, Gandhi, Lovelace, Douglass, Austen):  
-mean residual jitter ≈ 0.050 (range 0.034–0.07).
+Headline metric: **J_rms**, the root mean square of residual jitter over scored transitions (see "Residual Jitter Formula").
 
-| Mean residual jitter | Reading |
-|----------------------|---------|
-| ≤ 0.08 | Biography-like / very smooth |
-| 0.08–0.15 | Moderate, still largely continuous |
-| 0.15–0.30 | Noticeable gaps or retrospective smoothing |
-| > 0.30 | High residual jitter |
+Calibration set: Ramanujan, Curie, Darwin, Lincoln, Nightingale, Einstein, Gandhi, Lovelace, Douglass, Austen. Each life was scored on five fixed contexts (origin, formative turn, peak work, major adversity, late life and death) using one public source per figure, with the conventions below.
+
+Result: mean J_rms ≈ 0.073 (SD 0.037, range 0.038–0.166, n = 10).
+
+| J_rms | Reading |
+|-------|---------|
+| ≤ 0.11 | Biography-like / very smooth |
+| 0.11–0.15 | Moderate, still largely continuous |
+| 0.15–0.19 | Noticeable gaps or retrospective smoothing |
+| > 0.19 | High residual jitter |
+
+Bands are mean + 1, 2 and 3 SD of the calibration set. They are provisional (n = 10, single scorer).
+
+### Conventions the bands depend on
+Bands transfer only if the same step sizes and q values are used:
+- Raw Δ: gradual 0.05; abrupt change in intensity or wobble 0.40; orientation flip 0.60; ending (death) 0.80.
+- q: direct 0.90; one-step 0.75; multi-step or weak 0.50; speculative 0.25; no bridge 0.00.
+- Changing these shifts the calibration mean between about 0.04 and 0.14.
+
+### Reading the result
+- **Report J_rms with J_peak and the hotspot list**, not J_rms alone. A smooth overall score with one hotspot means "smooth except at one spot."
+- **Do not count a terminal death in J_peak or the hotspot list.** Under the conventions above every death scores 0.20 (0.80 × 0.25), which dominated 7 of 10 peaks and says nothing about continuity.
+- **If K < 8, mark the result "low evidence"** and do not map it to a band.
+- **A smooth score is not evidence of truth.** J_rms measures how well changes are bridged, not whether events happened. Well-built fiction and partly fictional or historical narratives are expected to land in the smooth range, so the metric cannot by itself separate fiction from history. Use the hotspot list, not the headline number, to find loopholes.
+- **The earlier anchor (mean ≈ 0.050) was set under the original slot-averaged mean.** It could not be reproduced in the recalibration, which gave ≈ 0.015 under the stated conventions. Compare legacy J_mean values with caution.
+
+### Limitations
+Single scorer, Wikipedia-length sources, n = 10, and only 9 of the 12 parameters were exercised. Re-calibrate with multiple scorers and known-loophole fiction before treating the bands as final.
 
 ## Resources
 
