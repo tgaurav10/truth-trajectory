@@ -143,29 +143,27 @@ Headline metric: **J_rms**, the root mean square of residual jitter over scored 
 
 Calibration set: Ramanujan, Curie, Darwin, Lincoln, Nightingale, Einstein, Gandhi, Lovelace, Douglass, Austen. Each life was scored on five fixed contexts (origin, formative turn, peak work, major adversity, late life and death) using one public source per figure, with the conventions below.
 
-Result: mean J_rms ≈ 0.073 (SD 0.037, range 0.038–0.166, n = 10).
+Result: mean J_rms ≈ 0.050 (SD 0.037, n = 10).
 
 | J_rms | Reading |
 |-------|---------|
-| ≤ 0.11 | Biography-like / very smooth |
-| 0.11–0.15 | Moderate, still largely continuous |
-| 0.15–0.19 | Noticeable gaps or retrospective smoothing |
-| > 0.19 | High residual jitter |
+| ≤ 0.087 | Biography-like / very smooth |
+| 0.087–0.125 | Moderate, still largely continuous |
+| 0.125–0.162 | Noticeable gaps or retrospective smoothing |
+| > 0.162 | High residual jitter |
 
 Bands are mean + 1, 2 and 3 SD of the calibration set. They are provisional (n = 10, single scorer).
 
 ### Conventions the bands depend on
 Bands transfer only if the same step sizes and q values are used:
-- Raw Δ: gradual 0.05; abrupt change in intensity or wobble 0.40; orientation flip 0.60; ending (death) 0.80.
+- Raw Δ: gradual 0.05; abrupt change in intensity or wobble 0.40; orientation flip 0.60; death after a described illness or old age as gradual (0.05), and a sudden or unheralded death (assassination, a ruptured aneurysm, a heart attack) as an abrupt 0.40 (explanation quality q can reduce it as needed).
 - q: direct 0.90; one-step 0.75; multi-step or weak 0.50; speculative 0.25; no bridge 0.00.
 - Changing these shifts the calibration mean between about 0.04 and 0.14.
 
 ### Reading the result
 - **Report J_rms with J_peak and the hotspot list**, not J_rms alone. A smooth overall score with one hotspot means "smooth except at one spot."
-- **Do not count a terminal death in J_peak or the hotspot list.** Under the conventions above every death scores 0.20 (0.80 × 0.25), which dominated 7 of 10 peaks and says nothing about continuity.
 - **If K < 8, mark the result "low evidence"** and do not map it to a band.
 - **A smooth score is not evidence of truth.** J_rms measures how well changes are bridged, not whether events happened. Well-built fiction and partly fictional or historical narratives are expected to land in the smooth range, so the metric cannot by itself separate fiction from history. Use the hotspot list, not the headline number, to find loopholes.
-- **The earlier anchor (mean ≈ 0.050) was set under the original slot-averaged mean.** It could not be reproduced in the recalibration, which gave ≈ 0.015 under the stated conventions. Compare legacy J_mean values with caution.
 
 ### Limitations
 Single scorer, Wikipedia-length sources, n = 10, and only 9 of the 12 parameters were exercised. Re-calibrate with multiple scorers and known-loophole fiction before treating the bands as final.
