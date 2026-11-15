@@ -56,7 +56,7 @@ Non-living objects: only the first 5.
    - Apply the two-mode rule when filling gaps.
 
 5. **Report**
-   - Per-object residual jitter (mean across its parameters).
+   - Per-object residual jitter (J_rms, J_peak, hotspots, K, and the new plot-level line).
    - Highlight any node whose jitter remains high after DFS and (if allowed) external lookup.
    - Overall assessment: low mean jitter + deep supporting chains = smoother / more plausible trajectory.
 
@@ -85,7 +85,17 @@ Also report **J_mean** (the legacy slot-averaged mean: sum of \(j_k\) divided by
 Minimum evidence: if \(K < 8\), mark the J_rms as "low evidence" and do not map it onto an interpretation band.
 
 ### Supporting (bridge) nodes
-Any node used to raise q is scored with the same four metrics and reported separately. A supporting node's J_rms is never averaged into the object it supports. A node with depth 1 and a hotspot stays visible as a hotspot.
+Any node used to raise q is scored with the same four metrics and reported separately. A supporting node's J_rms is never averaged into the object it supports. So the bridge nodes are excluded from the object they support but included at plot level. A node with depth 1 and a hotspot stays visible as a hotspot.
+
+### Plot-level jitter
+A plot-level score combines every node in the graph. Per-object scores are never averaged into each other; the plot score pools their transitions.
+
+- **Node set:** every node DFS reaches from the focal objects, down to a stated depth, plus every node used to raise a q. Report the depth used. Nodes with no scored transitions (K = 0) are listed but do not contribute.
+- **J_plot (headline)** = √( Σ over all nodes and transitions of j² / K_total ). This equals a K-weighted RMS of the node J_rms values, so a node with 20 transitions counts more than one with 1.
+- **Also report:** the worst node's J_rms, the combined hotspot list (j ≥ 0.10, tagged by node), K_total, and the number of nodes with K < 8.
+- **Evidence rule:** a node with K < 8 is reported but flagged "low evidence." If K_total < 8, mark J_plot "low evidence."
+- **Not visible to J_plot:** a missing causal link between nodes, or an event no node carries, produces no transition. Flag any such gap by hand.
+- **Bands:** the biography bands do not apply to J_plot. Plot-level bands need a calibration set with known casts.
 
 
 ### Deriving raw Δ
@@ -156,9 +166,9 @@ Bands are mean + 1, 2 and 3 SD of the calibration set. They are provisional (n =
 
 ### Conventions the bands depend on
 Bands transfer only if the same step sizes and q values are used:
-- Raw Δ: gradual 0.05; abrupt change in intensity or wobble 0.40; orientation flip 0.60; death after a described illness or old age as gradual (0.05), and a sudden or unheralded death (assassination, a ruptured aneurysm, a heart attack) as an abrupt 0.40 (explanation quality q can reduce it as needed).
+- Raw Δ: gradual 0.05; abrupt change in intensity or wobble 0.40; orientation flip 0.60; death after a described illness or old age as gradual (0.05), and a sudden or unheralded death (assassination, a ruptured aneurysm, a heart attack) as an abrupt 0.40 (explanation quality q sets how much of the step counts as residual jitter).
 - q: direct 0.90; one-step 0.75; multi-step or weak 0.50; speculative 0.25; no bridge 0.00.
-- Changing these shifts the calibration mean between about 0.04 and 0.14.
+- Changing these shifts the calibration mean between about 0.03 and 0.11.
 
 ### Reading the result
 - **Report J_rms with J_peak and the hotspot list**, not J_rms alone. A smooth overall score with one hotspot means "smooth except at one spot."
