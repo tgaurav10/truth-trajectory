@@ -95,7 +95,7 @@ A plot-level score combines every node in the graph. Per-object scores are never
 - **Also report:** the worst node's J_rms, the combined hotspot list (j ≥ 0.10, tagged by node), K_total, and the number of nodes with K < 8.
 - **Evidence rule:** a node with K < 8 is reported but flagged "low evidence." If K_total < 8, mark J_plot "low evidence."
 - **Not visible to J_plot:** a missing causal link between nodes, or an event no node carries, produces no transition. Flag any such gap by hand.
-- **Bands:** the biography bands do not apply to J_plot. Plot-level bands need a calibration set with known casts.
+- **Bands:** the biography bands may not strictly transfer to J_plot.
 
 
 ### Deriving raw Δ
@@ -145,38 +145,44 @@ When reporting a transition the model must state:
 | Pure fiction | Only the text itself | Under-developed bridges keep high residual jitter. DFS exposes them. |
 | Historical or potentially historical | Text + external archives, records, biographies, consistent secondary accounts | If external material supplies continuous trajectory, raise \(q\) and lower residual jitter. Silence or contradiction leaves jitter high. |
 
+External lookup is triggered, not routine: score on the text first, then consult external sources only for transitions with \(j_k \ge 0.10\) (hotspots). Report both values.
+
 Explanation is not free: any bridging object or event used to raise \(q\) must itself be scored. Its residual jitter is attached via the DFS edge.
 
 ## Interpretation (calibrated on 10 biographies)
 
 Headline metric: **J_rms**, the root mean square of residual jitter over scored transitions (see "Residual Jitter Formula").
 
-Calibration set: Ramanujan, Curie, Darwin, Lincoln, Nightingale, Einstein, Gandhi, Lovelace, Douglass, Austen. Each life was scored on five fixed contexts (origin, formative turn, peak work, major adversity, late life and death) using one public source per figure, with the conventions below.
+Calibration set: Ramanujan, Curie, Darwin, Lincoln, Nightingale, Einstein, Gandhi, Lovelace, Douglass, Austen. Each life was scored on five fixed contexts (origin, formative turn, peak work, major adversity, late life and death) using one public source per figure, with the conventions below. Every hotspot (j ≥ 0.10) was then checked against external records.
 
-Result: mean J_rms ≈ 0.050 (SD 0.037, n = 10).
+Result: mean J_rms ≈ 0.037 (SD 0.015, n = 10). Text-only run, before lookup: 0.050 (SD 0.037).
 
 | J_rms | Reading |
 |-------|---------|
-| ≤ 0.087 | Biography-like / very smooth |
-| 0.087–0.125 | Moderate, still largely continuous |
-| 0.125–0.162 | Noticeable gaps or retrospective smoothing |
-| > 0.162 | High residual jitter |
+| ≤ 0.052 | Biography-like / very smooth |
+| 0.052–0.067 | Moderate, still largely continuous |
+| 0.067–0.082 | Noticeable gaps or retrospective smoothing |
+| > 0.082 | High residual jitter |
 
-Bands are mean + 1, 2 and 3 SD of the calibration set. They are provisional (n = 10, single scorer).
+Bands are mean + 1, 2 and 3 SD of the calibration set. They are provisional (n = 10, single scorer). The spread comes mostly from one figure (Nightingale, 0.077); the other nine are 0.033 ± 0.006.
+
+Fiction cannot use external lookup, so fiction scores read against these bands will look rougher than historical scores of similar quality.
+
+Worked examples (not part of the calibration): Frodo 0.048, Caesar 0.089, Rama 0.033, *Mein Kampf* narrator 0.183, Killing Curse rule 0.198. See the reference file for entries.
 
 ### Conventions the bands depend on
 Bands transfer only if the same step sizes and q values are used:
 - Raw Δ: gradual 0.05; abrupt change in intensity or wobble 0.40; orientation flip 0.60; death after a described illness or old age as gradual (0.05), and a sudden or unheralded death (assassination, a ruptured aneurysm, a heart attack) as an abrupt 0.40 (explanation quality q sets how much of the step counts as residual jitter).
 - q: direct 0.90; one-step 0.75; multi-step or weak 0.50; speculative 0.25; no bridge 0.00.
-- Changing these shifts the calibration mean between about 0.03 and 0.11.
+- Autobiography sources: a bridge resting only on the narrator's after-the-fact account of his own inner change is retrospective (0.25).
 
 ### Reading the result
 - **Report J_rms with J_peak and the hotspot list**, not J_rms alone. A smooth overall score with one hotspot means "smooth except at one spot."
 - **If K < 8, mark the result "low evidence"** and do not map it to a band.
-- **A smooth score is not evidence of truth.** J_rms measures how well changes are bridged, not whether events happened. Well-built fiction and partly fictional or historical narratives are expected to land in the smooth range, so the metric cannot by itself separate fiction from history. Use the hotspot list, not the headline number, to find loopholes.
+- J_rms measures how well changes are bridged, not whether events happened. Well-built fiction and partly fictional or historical narratives are expected to land in the smooth or moderate range, so use the hotspot list, not the headline number, to find loopholes.
 
 ### Limitations
-Single scorer, Wikipedia-length sources, n = 10, and only 9 of the 12 parameters were exercised. Re-calibrate with multiple scorers and known-loophole fiction before treating the bands as final.
+Single scorer, Wikipedia-length sources plus hotspot-only external lookup, n = 10. Re-calibrate with multiple scorers and known-loophole fiction before treating the bands as final.
 
 ## Resources
 
